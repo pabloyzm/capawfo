@@ -25,7 +25,7 @@ def receive_method():
 
     try:
         # Parametros de entrada
-        elasticParameters = request.json["elasticParameters"]
+        params = request.json["params"]
 
 
     except KeyError:
@@ -35,11 +35,12 @@ def receive_method():
         status = 404
         result = json.dumps({"errorCode": errorCode, "errorMessage": errorMessage, "response": response,
                              "resultCode": resultCode})
-        #logging.info(traceback.format_exc())
+        logging.error(traceback.format_exc())
 
 
     else:
         # Todo bien
+        pass
 
         result = json.dumps({"errorCode": errorCode, "errorMessage": errorMessage, "response": response,
                              "resultCode": resultCode})
@@ -47,6 +48,7 @@ def receive_method():
         return resp
     finally:
         # Ocurrio algun error
+        pass
 
         resp = Response(result, status=status, mimetype="application/json")
         return resp
