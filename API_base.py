@@ -19,9 +19,12 @@ def receive_method():
     errorMessage = ""
     response = ""
     resultCode = 0
+    status = 200
+    result = json.dumps({"errorCode": errorCode, "errorMessage": errorMessage, "response": response,
+                         "resultCode": resultCode})
 
     try:
-        # parametros de entrada
+        # Parametros de entrada
         elasticParameters = request.json["elasticParameters"]
 
 
@@ -29,17 +32,23 @@ def receive_method():
         errorCode = 1
         errorMessage = "JSON input malformed"
         resultCode = 1
-        logging.info(traceback.format_exc())
+        status = 404
         result = json.dumps({"errorCode": errorCode, "errorMessage": errorMessage, "response": response,
                              "resultCode": resultCode})
-        resp = Response(result, status=200, mimetype="application/json")
-        return resp
+        #logging.info(traceback.format_exc())
+
 
     else:
+        # Todo bien
+
         result = json.dumps({"errorCode": errorCode, "errorMessage": errorMessage, "response": response,
                              "resultCode": resultCode})
+        resp = Response(result, status=status, mimetype='application/json')
+        return resp
+    finally:
+        # Ocurrio algun error
 
-        resp = Response(result, status=200, mimetype='application/json')
+        resp = Response(result, status=status, mimetype="application/json")
         return resp
 
 
